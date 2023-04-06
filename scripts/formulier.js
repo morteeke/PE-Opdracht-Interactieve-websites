@@ -1,1 +1,0 @@
-document.getElementsByClassName("text").innerHTML = "script text";
