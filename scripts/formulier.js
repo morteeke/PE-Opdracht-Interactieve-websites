@@ -1,4 +1,5 @@
-document.getElementById("alert-column").style.display = "none";
+const alertDiv = document.getElementById("alert-column");
+alertDiv.style.display = "none";
 
 let errors = [];
 
@@ -13,7 +14,7 @@ function validateForm(){
 
     checkEmptyField("email", "Het veld email is vereist.");
 
-    alert(errors.join(', '));
+    showAlerts();
     errors = [];
 }
 
@@ -43,4 +44,19 @@ function validateEmail(email){
 function validatePassword(password){
     //Controle wachtwoord.
 
+}
+
+function showAlerts(){
+
+    alertDiv.style.display = "initial";
+    if(errors.length != 0){
+        const dangerDiv = document.getElementById("danger-div");
+        document.getElementById("dangerP").innerText = errors.join("\n");
+        document.getElementById("success-div").style.display = "none";
+        document.getElementById("info-div").style.display = "none";
+
+        alert(errors.join(', '));
+    }
+
+    
 }
