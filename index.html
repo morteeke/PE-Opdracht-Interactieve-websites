@@ -141,7 +141,8 @@
                         </div>
                         <div class="row">
                             <div class="col-12 d-grid">
-                                <input class="btn btn-primary btn-block" type="button" value="Wave your magic wand">
+                                <input onclick="validateForm()" class="btn btn-primary btn-block" type="button" value="Wave your magic wand"
+                                    id="magicWand" 8>
                             </div>
                         </div>
 
@@ -149,7 +150,21 @@
                 </form>
             </div>
 
-            <!--Hier moet een nieuwe column komen voor de errors weer te geven.-->
+            <!--Column om errors weer te geven-->
+            <div class="col-4" id="alert-column">
+                <div class="alert alert-danger" role="alert" id="danger-div">
+                    <h4>Yikes, errors...</h4>
+                    <p id="errorP"></p>
+                </div>
+                <div class="alert alert-success" role="alert" id="success-div">
+                    <h4>Goed gedaan!</h4>
+                    <p>Aww yeah, je werd geregistreerd.</p>
+                </div>
+                <div class="alert alert-info" role="alert" id="info-div">
+                    <h4>Betalingswijze</h4>
+                    <p id="infoP"></p>
+                </div>
+            </div>
 
         </div>
 
