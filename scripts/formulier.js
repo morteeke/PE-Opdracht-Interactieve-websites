@@ -48,15 +48,21 @@ function validatePassword(password){
 
 function showAlerts(){
 
+    const dangerDiv = document.getElementById("danger-div");
+    const successDiv = document.getElementById("success-div");
+    const infoDiv = document.getElementById("info-div");
+
     alertDiv.style.display = "initial";
     if(errors.length != 0){
-        const dangerDiv = document.getElementById("danger-div");
-        document.getElementById("dangerP").innerText = errors.join("\n");
-        document.getElementById("success-div").style.display = "none";
-        document.getElementById("info-div").style.display = "none";
-
-        alert(errors.join(', '));
+        
+        dangerDiv.style.display = "inherit";
+        dangerDiv.getElementsByTagName("p")[0].innerText = errors.join("\n");
+        successDiv.style.display = "none";
+        infoDiv.style.display = "none";
     }
-
-    
+    else{
+        dangerDiv.style.display = "none";
+        successDiv.style.display = "inherit";
+        infoDiv.style.display = "inherit";
+    }
 }
