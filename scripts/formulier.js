@@ -22,8 +22,14 @@ function checkEmptyField(veld, melding){
 
 function validateEmail(email){
     //Hier gaan we de email valideren.
+    if(!email.indexOf('@')){
+        return false;
+    }
+
+    return true;
 }
 
 function validatePassword(password){
     //Controle wachtwoord.
+
 }
