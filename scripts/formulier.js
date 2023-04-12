@@ -14,6 +14,9 @@ function validateForm(){
 
     checkEmptyField("email", "Het veld email is vereist.");
 
+    checkEmptyField("wachtwoord", "Het veld wachtwoord is vereist.");
+    checkEmptyField("herhaalWachtwoord", "Het veld herhaal wachtwoord is vereist.");
+
     showAlerts();
     errors = [];
 }
@@ -29,21 +32,42 @@ function checkEmptyField(veld, melding){
     else if(!validateEmail(elementValue) && veld == "email"){
         errors[errors.length] = "E-mailadres is niet correct."; 
     }
+
+    else if(veld == "herhaalWachtwoord" && validatePassword() != ""){
+        errors[errors.length] = validatePassword();
+    }
 }
 
 function validateEmail(email){
+    const alphabet = ['a','z','e','r','t','y','u','i','o','p','q','s','d','f','g','h','j','k','l','m','w','x','c','v','b','n'];
 
     //Nakijken of de string een @ bevat.
     if(email.indexOf('@') == -1){
         return false;
     }
+    //we kijken na of de eerste character na de @ kan geparsed worden. zo niet dan gaan we kijken of de eerste karakter na @ voorkomt in het alfabet.
+    else if(isNaN(parseInt(email.split('@')[1][0]))){
+        if(alphabet.indexOf(email.split('@')[1][0]) == -1){
+            return false;
+        }
+    }
 
     return true;
 }
 
-function validatePassword(password){
-    //Controle wachtwoord.
+function validatePassword(){
 
+    const pass = document.getElementById("wachtwoord").value;
+    const repeatPass = document.getElementById("herhaalWachtwoord").value;
+    //Controle wachtwoord.
+    if(pass != repeatPass){
+        return "Je wachtwoorden komen niet overeen.";
+    }
+    else if(pass.length < 7){
+        return "Je wachtwoord moet minstens uit 7 characters bestaan.";
+    }
+
+    return "";
 }
 
 function showAlerts(){
