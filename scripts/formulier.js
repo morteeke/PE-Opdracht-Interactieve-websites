@@ -17,6 +17,7 @@ function validateForm(){
     checkEmptyField("wachtwoord", "Het veld wachtwoord is vereist.");
     checkEmptyField("herhaalWachtwoord", "Het veld herhaal wachtwoord is vereist.");
 
+    validatePayment(checkSelectedRadioButton());
     showAlerts();
     errors = [];
 }
@@ -89,4 +90,22 @@ function showAlerts(){
         successDiv.style.display = "inherit";
         infoDiv.style.display = "inherit";
     }
+}
+
+function validatePayment(veld){
+    document.getElementById("info-div").getElementsByTagName("p")[0].innerText = "Je betalingswijze is " + veld + ".";
+}
+
+function checkSelectedRadioButton(){
+
+    //we loopen door een button lijst om te kijken welke checked is.
+    let buttons = document.getElementsByName("betalingRadio");
+    
+    for(let c = 0; c < buttons.length; c++){
+        if(buttons[c].checked){
+            return buttons[c].value;
+        }
+    }
+
+    return false;
 }
