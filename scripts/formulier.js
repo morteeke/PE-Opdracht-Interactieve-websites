@@ -9,15 +9,21 @@ function validateForm(){
     checkEmptyField("achternaam", "Het veld achternaam is vereist.")
     checkEmptyField("gebruikersnaam", "Het veld gebruikersnaam is vereist.");
     checkEmptyField("adres", "Het veld adres is vereist.");
-    checkEmptyField("land", "Het veld land is vereist.");
-    checkEmptyField("provincie", "Het veld provincie is vereist.");
+    
 
     checkEmptyField("email", "Het veld email is vereist.");
 
     checkEmptyField("wachtwoord", "Het veld wachtwoord is vereist.");
     checkEmptyField("herhaalWachtwoord", "Het veld herhaal wachtwoord is vereist.");
 
+    checkEmptyField("adres", "Adres is vereist.");
+    checkEmptyField("land", "Land is vereist.");
+    checkEmptyField("provincie", "Provincie is vereist.");
+    checkEmptyField("postcode", "Het veld postcode is vereist.");
+    
+
     validatePayment(checkSelectedRadioButton());
+    checkAlgemeneVoorwaarden("akkoordCheck");
     showAlerts();
     errors = [];
 }
@@ -37,20 +43,41 @@ function checkEmptyField(veld, melding){
     else if(veld == "herhaalWachtwoord" && validatePassword() != ""){
         errors[errors.length] = validatePassword();
     }
+
+    else if(veld == "postcode"){
+        checkPC(veld);
+    }
+
+    else if(veld == "land" && document.getElementById(veld).value == "Kies een land"){
+        errors[errors.length] = melding;
+    }
+    else if(veld == "provincie" && document.getElementById(veld).value == "Kies een provincie"){
+        errors[errors.length] = melding;
+    }
 }
 
 function validateEmail(email){
     const alphabet = ['a','z','e','r','t','y','u','i','o','p','q','s','d','f','g','h','j','k','l','m','w','x','c','v','b','n'];
+    //email opsplitsen met @ als seperator.
+    const gesplitsteEmail = email.split('@');
 
     //Nakijken of de string een @ bevat.
     if(email.indexOf('@') == -1){
         return false;
     }
+    //is de string voor en na @ empty of whitespace?
+    else if(gesplitsteEmail[0].trim() == "" || gesplitsteEmail[1].trim() == ""){
+        return false;
+    }
+    //check of het eerste karakter van de email gebruikersnaam een punt of koppelteken is.
+    else if(gesplitsteEmail[0][0] == "." || gesplitsteEmail[0][0] == "-"){
+        return false;
+    }
+    //Domein:
     //we kijken na of de eerste character na de @ kan geparsed worden. zo niet dan gaan we kijken of de eerste karakter na @ voorkomt in het alfabet.
-    else if(isNaN(parseInt(email.split('@')[1][0]))){
-        if(alphabet.indexOf(email.split('@')[1][0]) == -1){
-            return false;
-        }
+    else if(isNaN(parseInt(gesplitsteEmail[1][0])) && alphabet.indexOf(gesplitsteEmail[1][0].toLowerCase()) == -1){
+        
+        return false;
     }
 
     return true;
@@ -60,12 +87,14 @@ function validatePassword(){
 
     const pass = document.getElementById("wachtwoord").value;
     const repeatPass = document.getElementById("herhaalWachtwoord").value;
-    //Controle wachtwoord.
+    
+    //Is het wachtoord gelijk aan het herhaalde wachtwoord?
     if(pass != repeatPass){
         return "Je wachtwoorden komen niet overeen.";
     }
-    else if(pass.length < 7){
-        return "Je wachtwoord moet minstens uit 7 characters bestaan.";
+    //bestaat het wachtwoord uit meer dan 7 characters?
+    else if(pass.length <= 7){
+        return "Je wachtwoord moet minstens uit 8 characters bestaan.";
     }
 
     return "";
@@ -108,4 +137,16 @@ function checkSelectedRadioButton(){
     }
 
     return false;
+}
+
+function checkPC(veld){
+    if(!(document.getElementById(veld).value >= 1000 && document.getElementById(veld).value < 10000)){
+        errors[errors.length] = "De waarde van postcode moet tussen 1000 en 10000 liggen."
+    }
+}
+
+function checkAlgemeneVoorwaarden(veld){
+    if(!document.getElementById(veld).checked){
+        errors[errors.length] = "Je moet de algemene voorwaarden accepteren.";
+    }
 }
